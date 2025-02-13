@@ -28,7 +28,8 @@ jobs:
         run: chmod +x gradlew
   lints:
     runs-on: ubuntu-latest
-      # Runs a single command using the runners shell
+    steps:
+      - uses: actions/checkout@v4
       - name: Run Lint Test
         run: ./gradlew lintDebug
 
@@ -39,12 +40,14 @@ jobs:
           name: lint.html
           path: app/build/reports/lint-results-debug.html
   unit-test:
-    needs: [lints]
+    needs: [ lints ]
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Run Unit test
         run: ./gradlew tests
 
-      - name : Upload unit test result
+      - name: Upload unit test result
         uses: actions/upload-artifact@v4
         with:
           name: unit.html
